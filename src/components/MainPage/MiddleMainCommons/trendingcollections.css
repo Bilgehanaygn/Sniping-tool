@@ -1,0 +1,14 @@
+.square-item{
+    font-weight: 600;
+    font-size:1em;
+    overflow-x: hidden;
+    padding: 0.5vw;
+    max-width: 11vw;
+    border-radius: 0.5vw;
+    background-color: #1b1b2a;
+}
+
+.square-item:hover{
+    background-color: #e0a502;
+    cursor: pointer;
+}

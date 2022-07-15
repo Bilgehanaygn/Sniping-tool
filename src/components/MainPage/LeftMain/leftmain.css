@@ -1,0 +1,23 @@
+.menu-item {
+    font-size: 0.85em; 
+    margin-bottom:1vh;
+    display:flex;
+    flex-direction:row; 
+    align-items:center;
+    padding: 1vh;
+    border-radius: 1vh;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.menu-item:hover {
+    background-color: #e0a502;
+}
+
+.wallet-adapter-button {
+    padding: 1vh !important;
+    font-size: 1em !important;
+    margin-bottom: 1vh;
+
+    
+}

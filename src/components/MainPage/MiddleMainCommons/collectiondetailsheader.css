@@ -1,0 +1,24 @@
+
+#back-arrow {
+    padding: 1vh;
+}
+
+#back-arrow:hover {
+    background-color: #e0a502;
+    cursor: pointer;
+    border-radius: 3vh;
+}
+
+#refresh-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5vh;
+    margin: 2vh 1vw 2vh 0;
+
+}
+
+#refresh-wrapper:hover {
+    background-color: #e0a502;
+    cursor: pointer;
+}

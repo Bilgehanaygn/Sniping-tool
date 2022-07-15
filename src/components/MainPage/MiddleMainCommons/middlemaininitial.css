@@ -1,0 +1,22 @@
+::-webkit-scrollbar {width: 0.8vw;}
+::-webkit-scrollbar-track {background-color: #282c34;}
+::-webkit-scrollbar-thumb {background-color: #e0a502; height: 15%;}  
+::-webkit-scrollbar-thumb:hover {background-color: #FFD700;}
+
+#search-input{
+    width: 25vw;
+    height: 4.5vh;
+    border-radius: 3px;
+    border: 1px solid #e0a502;
+    background-color: #000;
+    color: #e0a502;
+    font-size: 20px;
+    margin-left: 0.5vw;
+    padding-left: 0.4vw;
+}
+
+#search-input:focus {
+    outline: none;
+    border: 1px solid #FFD700;
+}
+

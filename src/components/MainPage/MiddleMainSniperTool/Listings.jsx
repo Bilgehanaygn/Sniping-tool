@@ -82,8 +82,8 @@ const ListItem = ({itemDetails, index, checkInBasket, snipeItem, getItemState}) 
 
     const styles = {
         imageStyle: {
-            height:"18vh",
-            width: "100%"
+            width: "100%",
+            height: "auto"
         },
         itemInfo: {
             display:"flex",
@@ -91,7 +91,7 @@ const ListItem = ({itemDetails, index, checkInBasket, snipeItem, getItemState}) 
         },
     }
     return (
-        <div style={{backgroundColor: theme.primary, borderRadius:"0.5vw", width:"10vw"}}>
+        <div id="item-outer-wrapper" >
             <div id="snipe-button" onClick={handleSnipeButtonClick}>
                 <img src={snipingIcon} alt="S" style={{width:25, height:25, marginRight:"0.4vw",}} />
                 Snipe
@@ -178,8 +178,7 @@ const Listings = () => {
         return typeof rest === 'undefined' ? -5 : rest;
     }
     return (
-        <div style={{display:"grid", rowGap:"10px",
-        gridTemplateColumns:"auto auto auto auto auto"}} >
+        <div id="listings-grid" >
             {
             state.currentCollectionListings?.sort((a,b)=>{
                 switch (state.sortBy){

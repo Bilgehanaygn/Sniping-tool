@@ -10,6 +10,9 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
     const [state, dispatch] = ContextValue();
 
     const handleBackClick = () => {
+        if(state.autoBuyRunning){
+            return;
+        }
         dispatch({
             type: types.SELECT_COLLECTION,
             payload: false
@@ -50,15 +53,20 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
         <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", alignItems:"center", 
         borderBottom:`2px solid ${theme.primary}`, marginBottom:"5vh", paddingBottom:"1vh"}} >
             <div style={{display:"flex", alignItems:"center"}} >
-                <svg onClick={handleBackClick} id="back-arrow" xmlns="http://www.w3.org/2000/svg" width="4vh" height="4vh" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                <svg onClick={handleBackClick} style={state.autoBuyRunning ? {cursor:"not-allowed"} : null} id="back-arrow" xmlns="http://www.w3.org/2000/svg" width="4vh" height="4vh" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
                     <path fillRule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5z"/>
                 </svg>
                 <img src={state.selectedCollectionInfo?.image}  alt="col name" style={styles.collectionAvatar}/>
-                <span style={{fontSize:"1.6em", width:"17vw", overflow:"hidden", maxHeight:"10vh", textAlign:"left"}} >
-                    {typeof state.selectedCollectionInfo?.name !== 'undefined' ? 
-                    state.selectedCollectionInfo?.name.substring(0,35) : "Magic Eden Error"
-                    }
-                </span>
+                <div style={{maxWidth:"30vw"}} >
+                    <div style={{fontSize:"1.6em", width:"17vw", marginBottom:"0.5vh", overflow:"hidden", maxHeight:"10vh", textAlign:"left"}} >
+                        {typeof state.selectedCollectionInfo?.name !== 'undefined' ? 
+                        state.selectedCollectionInfo?.name?.substring(0,35) : "Magic Eden Error"
+                        }
+                    </div>
+                    <div style={{textAlign:"left"}} >
+                        {state.selectedCollectionInfo?.description?.substring(0,150)}..
+                    </div>
+                </div>
             </div>
             <div style={{display:"flex", flexDirection:"row"}} >
                 <div id="refresh-wrapper" onClick={handleRefreshClick} >
@@ -69,15 +77,16 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
                 </div>
                 <div style={{marginRight:"1vw"}} >
                     <div style={{...styles.infoItem, marginBottom:"1vh"}} >
-                        Floor Price: {typeof c === 'undefined' ? (state.selectedCollectionInfo?.floorPrice/1000000000).toFixed(2) : "None"} ◎
+                        Floor: {typeof c === 'undefined' ? (state.selectedCollectionInfo?.floorPrice/1000000000).toFixed(2) : "None"} ◎
                     </div>
                     <div style={styles.infoItem}>
-                        Volume All: {typeof state.selectedCollectionInfo?.volumeAll !== 'undefined' ? (state.selectedCollectionInfo?.volumeAll/1000000000000).toFixed(2) : "None"}K ◎
+                        Listed: {typeof state.selectedCollectionInfo?.listedCount !== 'undefined' ? state.selectedCollectionInfo?.listedCount : "None"}
                     </div>
+                    
                 </div>
                 <div >
                     <div style={{...styles.infoItem, marginBottom:"1vh"}}>
-                        Total Listed: {typeof state.selectedCollectionInfo?.listedCount !== 'undefined' ? state.selectedCollectionInfo?.listedCount : "None"}
+                        Volume: {typeof state.selectedCollectionInfo?.volumeAll !== 'undefined' ? (state.selectedCollectionInfo?.volumeAll/1000000000000).toFixed(2) : "None"}K ◎
                     </div>
                     <div style={{display:"flex", flexDirection:"row", background:"#282c34", borderRadius:"0.5vh", padding:"3px"}} >
                         <a href={state.selectedCollectionInfo?.website} style={{...styles.socialIcon, marginLeft:0}} target="_blank" ><svg stroke="currentColor" fill="currentColor" viewBox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><path d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z"></path></svg></a>

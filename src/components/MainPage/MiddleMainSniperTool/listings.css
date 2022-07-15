@@ -2,13 +2,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0.5vw;
     padding: 0.5vh;
     background: #e0a502;
     color: #000000;
     font-size:20;
     position: relative;
-      
+    border-radius: 0.5vh 0.5vh 0vh 0vh;
+
 }
 
 #snipe-button:hover {
@@ -19,7 +19,6 @@
 #item-wrapper {
     padding: 1vh;
     background-color: #282c34;
-    max-width: 10vw;
     border: 4px solid #282c34;
 }
 
@@ -28,6 +27,11 @@
     border: 4px solid #FFD700;
 }
 
+#listings-grid {
+    display: grid; 
+    row-gap:10px; column-gap: 1vw; 
+    grid-template-columns:auto auto auto auto auto;
+}
 
 
 @keyframes disappear {

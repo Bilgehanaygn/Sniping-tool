@@ -138,8 +138,8 @@ const MiddleMainSniperTool = ({selectedCollection}) => {
     return (
         //if still old then return loading else, retrn new
         !state.currentCollectionLoadingDone ? <Loading callBackFunction={null} callCallBack={false} /> : 
-        <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between" }} >
-            <div style={{overflowY:"auto", height:"92vh", maxHeight:"92vh"}} >
+        <div style={{display:"flex", flexDirection:"row", justifyContent:"center" }} >
+            <div style={{overflowY:"auto", height:"92vh", maxHeight:"92vh", paddingRight:"1.5vh", width:"64vw", maxWidth:"64vw" }} >
                 <CollectionDetailsHeader handleRefreshClick={handleRefreshClick} />
                 <Listings />
                 <FooterButtons offset={offset} setOffset={setOffset} />

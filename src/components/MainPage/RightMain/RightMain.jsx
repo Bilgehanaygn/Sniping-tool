@@ -13,7 +13,7 @@ const CartItem = ({itemDetails, handleDeleteClick}) => {
     const styles = {
         itemWrapper: {
             padding:"1vh", display:"flex", flexDirection:"row",
-            justifyContent:"space-between"
+            justifyContent:"space-between",
         },
         itemImage: {
             width:"10vh", height:"10vh", marginRight:"1vw", borderRadius:"1vh",
@@ -22,7 +22,7 @@ const CartItem = ({itemDetails, handleDeleteClick}) => {
     }
 
     return (
-        <div style={{border:`2px solid ${theme.primary}`, borderRadius:"2vh", margin:"1vh 0vh",
+        <div style={{border:`2px solid ${theme.primary}`, borderRadius:"2vh", margin:"1vh 0vh", maxWidth:"13vw"
             }}>
             <div style={{background:"",textAlign:"center", padding:"0.8vh",borderBottom:`2px solid ${theme.primary}`}}>
                 State: {itemDetails?.itemState === 0 ? "Sniping... ⏳" : 
@@ -35,9 +35,9 @@ const CartItem = ({itemDetails, handleDeleteClick}) => {
                     <img src={itemDetails?.extra?.img} alt="img" style={styles.itemImage} />
                     <div style={{fontSize:"17px", display:"flex", flexDirection:"column", 
                     justifyContent:"space-between", padding:"0.2vh 0vh"}}>
-                        <div>{itemDetails.title}</div>
+                        <div>{itemDetails?.title}</div>
                         <div>⍜{itemDetails?.rarity?.moonrank === undefined ? "N/A" : itemDetails.rarity.moonrank.rank}</div>
-                        <div>{itemDetails.price} ◎</div>
+                        <div>{itemDetails?.price} ◎</div>
                     </div>
                 </div>
                 <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
@@ -98,7 +98,7 @@ const RightMain = () => {
             width:"15vw", minHeight:"90vh", maxHeight:"90vh",
             backgroundColor:"#282c34", color:"white", borderRadius:"0.5vh",
             display:"flex", flexDirection:"column", padding:"0vh 1vw", paddingBottom:"2vh",
-            justifyContent:"space-between", overflowY:"scroll", marginRight:"2vw"
+            justifyContent:"space-between", overflowY:"scroll", margin:"0vw 2vw"
         },
         header: {
             fontWeight:"bold",padding:"1.5vh 0vh", fontSize:25, borderBottom:`2px solid ${theme.primary}`, 

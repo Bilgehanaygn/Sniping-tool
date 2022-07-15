@@ -1,5 +1,5 @@
 .specification-wrapper {
-    font-size: 1.5em;
+    font-size: 1em;
     text-align: start;
     margin-bottom: 1vh;
     background-color: #282c34;
@@ -61,3 +61,9 @@ input:checked + .custom-switch:after {
     left: calc(100% - 1px);
     transform: translateX(-100%);
 }
+
+
+#item-detection-area {
+    animation: enlight 2.5s infinite linear;
+}
+

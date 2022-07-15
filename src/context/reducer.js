@@ -10,7 +10,8 @@ export const initialState = {
     basket: [],
     basketTotal: 0,
     currentPage: 1,
-    anyCollectionSelected: false
+    anyCollectionSelected: false,
+    autoBuyRunning:false
 };
 
 const reducer = (state, action) => {
@@ -64,6 +65,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 walletBalance: action.payload
+            };
+        case types.AUTO_BUY_STATE:
+            return {
+                ...state,
+                autoBuyRunning: action.payload
             };
 
 

@@ -38,6 +38,7 @@ export const fetchItemDetails = (tokenAddressList) => {
 
 }
 
+
 export const popularCollections = [
     {name: "DeGods", symbol:"degods", image:"https://i.imgur.com/fO3tI1t.png"},
     {name: "Okay Bears", symbol:"okay_bears", image:"https://bafkreidgfsdjx4nt4vctch73hcchb3pkiwic2onfw5yr4756adchogk5de.ipfs.dweb.link"},

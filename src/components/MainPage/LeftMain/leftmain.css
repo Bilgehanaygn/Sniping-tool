@@ -5,9 +5,11 @@
     flex-direction:row; 
     align-items:center;
     padding: 1vh;
-    border-radius: 1vh;
-    cursor: pointer;
+    border-radius: 0.5vh;
     font-weight: 600;
+    color:#fff;
+    background-color: transparent;
+    border: none;
 }
 
 .menu-item:hover {

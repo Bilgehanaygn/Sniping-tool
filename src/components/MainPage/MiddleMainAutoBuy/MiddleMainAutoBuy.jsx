@@ -100,63 +100,71 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
             //if item is lower than selected price
             for(let item of floorFive){
                 if(item?.price <= givenPrice){
-                    console.log(snipedItems[0]);
-                    if(snipedItemsRef.current.find(element=>element.tokenMint===item.tokenMint)){
-                        return;
-                    }
                     try{
-                        let res = axios.get(`https://api.all.art/v1/solana/${item.tokenAddress}`);
-                        if(typeof res?.data === 'undefined' || typeof res?.data?.Title === 'undefined'){
-                            setDetectedItem({...item, title: "#" + "NaN"});
-                            item = {...item, title: "#" + "NaN"}
+                        if(snipedItemsRef.current.find(element=>element.tokenMint===item.tokenMint)){
+                            return;
                         }
-                        else{
-                            setDetectedItem({...item, title: "#" + responses[i]?.data?.Title.split("#")[1]});  
-                            item = {...item, title: "#" + responses[i]?.data?.Title.split("#")[1]}                                      
+                        try{
+                            let res = axios.get(`https://api.all.art/v1/solana/${item.tokenAddress}`);
+                            if(typeof res?.data === 'undefined' || typeof res?.data?.Title === 'undefined'){
+                                setDetectedItem({...item, title: "#" + "NaN"});
+                                item = {...item, title: "#" + "NaN"}
+                            }
+                            else{
+                                setDetectedItem({...item, title: "#" + responses[i]?.data?.Title.split("#")[1]});  
+                                item = {...item, title: "#" + responses[i]?.data?.Title.split("#")[1]}                                      
+                            }
                         }
-                    }
-                    catch(err){
-                        console.log(err);
-                    }
-                    //execute buying processes
-                    setCurrentStateMessage(2);
-                    console.log("in");
-                    let buyRes = await sendBuyInstruction(publicKey.toBase58(), item.seller, item.auctionHouse, item.tokenMint,
-                    item.tokenAddress, item.price);
-                    if(!startedRef.current){
-                        return;
-                    }
-                    let txn = Transaction.from(buyRes.data.txSigned.data);
-                    let txnSigned = await signTransaction(txn);
-
-                    setTotalAttempts(totalAttempts+1);
-
-                    const signature = await sendAndConfirmRawTransaction(connection, txnSigned.serialize(), 
-                    {skipPreflight: true, preflightCommitment: 'processed', maxRetries: 3, commitment: 'processed'});
-
-                    //if we see response everything succeeded, on error catch block is executed
-                    console.log(signature);
-                    dispatch({
-                        type:types.SET_WALLET_BALANCE,
-                        payload: (await connection.getBalance(publicKey))
-                    })
-                    setTotalSpent(totalSpent+item.price);
-                    setTotalSniped(totalSniped+1);
-                    setSnipedItems([...snipedItems, {...item, itemTransaction:signature, name:state.selectedCollectionInfo.name}]);
-                    snipedItemsRef.current = [...snipedItemsRef.current, item];
-                    setCurrentStateMessage(1);
-                    setDetectedItem(null);
-                    //update balance
-                    
-                    //check if max quantitity reached
-                    if(totalSniped >= givenQuantity){
-                        setStarted(false);
-                        startedRef.current = false;
+                        catch(err){
+                            console.log(err);
+                        }
+                        //execute buying processes
+                        setCurrentStateMessage(2);
+                        console.log("in");
+                        let buyRes = await sendBuyInstruction(publicKey.toBase58(), item.seller, item.auctionHouse, item.tokenMint,
+                        item.tokenAddress, item.price);
+                        if(!startedRef.current){
+                            return;
+                        }
+                        let txn = Transaction.from(buyRes.data.txSigned.data);
+                        let txnSigned = await signTransaction(txn);
+    
+                        setTotalAttempts(totalAttempts+1);
+    
+                        const signature = await sendAndConfirmRawTransaction(connection, txnSigned.serialize(), 
+                        {skipPreflight: true, preflightCommitment: 'processed', maxRetries: 3, commitment: 'processed'});
+    
+                        //if we see response everything succeeded, on error catch block is executed
+                        console.log(signature);
                         dispatch({
-                            type: types.AUTO_BUY_STATE,
-                            payload: false
+                            type:types.SET_WALLET_BALANCE,
+                            payload: (await connection.getBalance(publicKey))
                         })
+                        setTotalSpent(totalSpent+item.price);
+                        setTotalSniped(totalSniped+1);
+                        setSnipedItems([...snipedItemsRef.current, {...item, itemTransaction:signature, name:state.selectedCollectionInfo.name}]);
+                        snipedItemsRef.current = [...snipedItemsRef.current, item];
+                        setCurrentStateMessage(1);
+                        setDetectedItem(null);
+                        //update balance
+                        
+                        //check if max quantitity reached
+                        if(totalSniped >= givenQuantity){
+                            setStarted(false);
+                            startedRef.current = false;
+                            dispatch({
+                                type: types.AUTO_BUY_STATE,
+                                payload: false
+                            })
+                        }
                     }
+                    catch(error){
+                        //if transaction failed
+                        setDetectedItem(null);
+                        setCurrentStateMessage(1);
+                        snipedItemsRef.current = [...snipedItemsRef.current, item];
+                    }
+                    
                 }
             }
         }
@@ -276,21 +284,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                                 {(state.walletBalance/1000000000).toFixed(2)} ◎
                                 </div>
                             </div>
-                            <div className="specification-wrapper" >
-                                <div>
-                                    Running Time
-                                </div>
-                                <div style={{textAlign:"center", color:`${theme.primary}`}} >
-                                    00:
-                                    {
-                                        Math.floor(runningTime/60) > 9 ? Math.floor(runningTime/60) : "0"+Math.floor(runningTime/60)
-                                    }
-                                    :
-                                    {
-                                        runningTime%60 > 9 ? runningTime%60 : "0"+runningTime%60
-                                    }
-                                </div>
-                            </div>
+                            
                         </div>
                         <div style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", fontSize:"1.5em"}}>
                             <label style={{marginRight:"1vw"}} >

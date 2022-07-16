@@ -34,6 +34,15 @@ const LeftMain = () => {
     }
     return (
         <div style={styles.mainDiv}>
+            <div style={{position:"absolute", backgroundColor:"black", width:"155px", height:"120px"
+                ,top:"35%"}}  >
+                    <div>SpoilerSpoilerSpoiler</div>
+                    <div>SpoilerSpoilerSpoiler</div>
+                    <div>SpoilerSpoilerSpoiler</div>
+                    <div>SpoilerSpoilerSpoiler</div>
+                    <div>SpoilerSpoilerSpoiler</div>
+                    
+                </div>
             <img src={logo} alt="image1" style={{width:"100%", height:"auto", marginBottom:"2vh", 
             borderBottom: `2px solid ${theme.primary}` }} />
             <WalletMultiButton disabled={state.autoBuyRunning} />

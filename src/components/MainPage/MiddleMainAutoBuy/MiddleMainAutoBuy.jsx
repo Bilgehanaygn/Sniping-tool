@@ -100,6 +100,11 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
             //if item is lower than selected price
             for(let item of floorFive){
                 if(item?.price <= givenPrice){
+                    if(snipedItems.find(element=>element.tokenMint===item.tokenMint)){
+                        setCurrentStateMessage(1);
+                        setDetectedItem(null);
+                        return;
+                    }
                     try{
                         let res = axios.get(`https://api.all.art/v1/solana/${item.tokenAddress}`);
                         if(typeof res?.data === 'undefined' || typeof res?.data?.Title === 'undefined'){
@@ -132,12 +137,17 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
 
                     //if we see response everything succeeded, on error catch block is executed
                     console.log(signature);
+                    dispatch({
+                        type:types.SET_WALLET_BALANCE,
+                        payload: (await connection.getBalance(publicKey))
+                    })
                     setTotalSpent(totalSpent+item.price);
                     setTotalSniped(totalSniped+1);
                     console.log(detectedItem);
                     setSnipedItems([...snipedItems, {...detectedItem, itemTransaction:signature, name:state.selectedCollectionInfo.name}]);
                     setCurrentStateMessage(1);
                     setDetectedItem(null);
+                    //update balance
                     
                     //check if max quantitity reached
                     if(totalSniped >= givenQuantity){

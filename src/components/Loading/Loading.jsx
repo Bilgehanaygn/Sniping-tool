@@ -32,7 +32,7 @@ const Loading = ({callBackFunction, callCallBack}) => {
     return (
         <div style={styles.mainDiv}>
             <div id="logo-wrapper">
-                <img src={logo} alt="image1" style={{width:"60vh", height:"40vh",
+                <img src={logo} alt="image1" style={{width:"82vh", height:"40vh",
                 borderRadius: "5vh", zIndex:4
                 }} />
             </div>

@@ -7,7 +7,6 @@ import MiddleMainAutoBuy from './MiddleMainAutoBuy/MiddleMainAutoBuy';
 import { fetchAllCollections } from "../../actions/collections";
 import types from "../../actions/types";
 import theme from '../../theme/theme';
-import RightMain from './RightMain/RightMain';
 
 
 const MainPage = () => {

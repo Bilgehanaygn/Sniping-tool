@@ -43,8 +43,10 @@ const ListElement = ({element, showTransaction}) => {
 
 const MiddleMainAutoBuy = ({selectedCollection}) => {
     const [totalSniped, setTotalSniped] = useState(0);
-    const [totalAttempts, setTotalAttempts] = useState(0);
+    const totalSnipedRef = useRef(totalSniped);
+
     const [totalSpent, setTotalSpent] = useState(0);
+    const totalSpentRef = useRef(totalSpent);
     const [runningTime, setRunningTime] = useState(0);
     const runningTimeRef = useRef(runningTime);
     const [runningTimeInterval, setRunningTimeInterval] = useState(null);
@@ -129,7 +131,6 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                         let txn = Transaction.from(buyRes.data.txSigned.data);
                         let txnSigned = await signTransaction(txn);
     
-                        setTotalAttempts(totalAttempts+1);
     
                         const signature = await sendAndConfirmRawTransaction(connection, txnSigned.serialize(), 
                         {skipPreflight: true, preflightCommitment: 'processed', maxRetries: 3, commitment: 'processed'});
@@ -140,8 +141,11 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                             type:types.SET_WALLET_BALANCE,
                             payload: (await connection.getBalance(publicKey))
                         })
-                        setTotalSpent(totalSpent+item.price);
-                        setTotalSniped(totalSniped+1);
+                        setTotalSpent(totalSpentRef.current+item.price);
+                        totalSpentRef.current = totalSpentRef.current + item.price;
+                        setTotalSniped(totalSnipedRef.current+1);
+                        totalSnipedRef.current = totalSnipedRef.current+1;
+
                         setSnipedItems([...snipedItemsRef.current, {...item, itemTransaction:signature, name:state.selectedCollectionInfo.name}]);
                         snipedItemsRef.current = [...snipedItemsRef.current, item];
                         setCurrentStateMessage(1);
@@ -284,7 +288,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                                 {(state.walletBalance/1000000000).toFixed(2)} ◎
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", fontSize:"1.5em"}}>
                             <label style={{marginRight:"1vw"}} >

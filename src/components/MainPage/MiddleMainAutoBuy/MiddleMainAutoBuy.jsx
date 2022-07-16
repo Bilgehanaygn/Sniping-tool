@@ -54,7 +54,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
     const [givenQuantity, setGivenQuantity] = useState(0);
     const [givenPrice, setGivenPrice] = useState(0);
     const [snipedItems, setSnipedItems] = useState([]);
-
+    const snipedItemsRef = useRef(snipedItems);
     const [currentStateMessage, setCurrentStateMessage] = useState(0);
     const [detectedItem, setDetectedItem] = useState(null);
     
@@ -100,9 +100,8 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
             //if item is lower than selected price
             for(let item of floorFive){
                 if(item?.price <= givenPrice){
-                    if(snipedItems.find(element=>element.tokenMint===item.tokenMint)){
-                        setCurrentStateMessage(1);
-                        setDetectedItem(null);
+                    console.log(snipedItems[0]);
+                    if(snipedItemsRef.current.find(element=>element.tokenMint===item.tokenMint)){
                         return;
                     }
                     try{
@@ -143,8 +142,8 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                     })
                     setTotalSpent(totalSpent+item.price);
                     setTotalSniped(totalSniped+1);
-                    console.log(detectedItem);
-                    setSnipedItems([...snipedItems, {...detectedItem, itemTransaction:signature, name:state.selectedCollectionInfo.name}]);
+                    setSnipedItems([...snipedItems, {...item, itemTransaction:signature, name:state.selectedCollectionInfo.name}]);
+                    snipedItemsRef.current = [...snipedItemsRef.current, item];
                     setCurrentStateMessage(1);
                     setDetectedItem(null);
                     //update balance
@@ -185,7 +184,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
             } ,1000));
             while(startedRef.current){
                 await startListening();
-                await new Promise(resolve=>{setTimeout(()=>{console.log("looped");resolve();},700)})
+                await new Promise(resolve=>{setTimeout(()=>{resolve();},700)})
             }
         }
         else{

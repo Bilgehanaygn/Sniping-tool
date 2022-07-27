@@ -1,0 +1,25 @@
+#back-arrow {
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 35px;
+    max-height: 35px;
+}
+
+#back-arrow:hover {
+    color: #e0a502;
+    cursor: pointer;
+}
+
+
+.start-stop-button {
+    width: 45%;
+    font-size: 1.5em;
+    padding: 0.7vh;
+    font-weight: 600;
+    color:#fff;
+    border-radius:0.5vh;
+}
+
+.start-stop-button:active {
+    background-color: #FFD700;
+}

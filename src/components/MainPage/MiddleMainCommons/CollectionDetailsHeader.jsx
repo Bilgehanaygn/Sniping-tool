@@ -53,7 +53,7 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
         <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", alignItems:"center", 
         borderBottom:`2px solid ${theme.primary}`, marginBottom:"5vh", paddingBottom:"1vh"}} >
             <div style={{display:"flex", alignItems:"center"}} >
-                <svg onClick={handleBackClick} style={state.autoBuyRunning ? {cursor:"not-allowed"} : null} id="back-arrow" xmlns="http://www.w3.org/2000/svg" width="4vh" height="4vh" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                <svg onClick={handleBackClick} style={state.autoBuyRunning ? {cursor:"not-allowed"} : null} id="back-arrow" xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
                     <path fillRule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5z"/>
                 </svg>
                 <img src={state.selectedCollectionInfo?.image}  alt="col name" style={styles.collectionAvatar}/>
@@ -68,13 +68,11 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
                     </div>
                 </div>
             </div>
-            <div style={{display:"flex", flexDirection:"row"}} >
-                <div id="refresh-wrapper" onClick={handleRefreshClick} >
-                    <svg style={{margin:"1vh"}} xmlns="http://www.w3.org/2000/svg" width="5vh" height="5vh" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <div style={{display:"flex", flexDirection:"row", alignItems:"center"}} >
+                    <svg onClick={handleRefreshClick} id="refresh-svg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                         <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
                     </svg>
-                </div>
                 <div style={{marginRight:"1vw"}} >
                     <div style={{...styles.infoItem, marginBottom:"1vh"}} >
                         Floor: {typeof c === 'undefined' ? (state.selectedCollectionInfo?.floorPrice/1000000000).toFixed(2) : "None"} ◎

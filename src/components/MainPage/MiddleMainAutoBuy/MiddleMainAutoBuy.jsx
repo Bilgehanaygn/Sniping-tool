@@ -15,7 +15,7 @@ const ListElement = ({element, showTransaction}) => {
     return (
         <div style={{display:"flex", flexDirection:"row", width:"100%", marginBottom:"1vh", 
             borderRadius:"0.5vh", fontSize:"1.1em" }}>
-            <img src={element.extra?.img} alt="img" style={{width:"5vw", height:"auto", marginRight:"1vw", borderRadius:"0.5vh"}} />
+            <img src={element.extra?.img} alt="img" style={{width:"5vw", height:"4vw", marginRight:"1vw", borderRadius:"0.5vh"}} />
             <div style={{textAlign:"left"}} >
                 <div>
                     {element.name} {element.title}
@@ -28,7 +28,7 @@ const ListElement = ({element, showTransaction}) => {
                     <div>
                         <a href={`https://explorer.solana.com/tx/${element.itemTransaction}`} 
                         style={{color:`${theme.primary}`}} >
-                            {element.itemTransaction?.substring(0,5) + ".." + element.itemTransaction?.substring(83,88)}
+                            Txn: {element.itemTransaction?.substring(0,5) + ".." + element.itemTransaction?.substring(83,88)}
                         </a>
                     </div>
                     :
@@ -145,7 +145,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                         totalSpentRef.current = totalSpentRef.current + item.price;
                         setTotalSniped(totalSnipedRef.current+1);
                         totalSnipedRef.current = totalSnipedRef.current+1;
-
+                        
                         setSnipedItems([...snipedItemsRef.current, {...item, itemTransaction:signature, name:state.selectedCollectionInfo.name}]);
                         snipedItemsRef.current = [...snipedItemsRef.current, item];
                         setCurrentStateMessage(1);
@@ -153,9 +153,14 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                         //update balance
                         
                         //check if max quantitity reached
-                        if(totalSniped >= givenQuantity){
+                        if(totalSnipedRef.current >= givenQuantity){
                             setStarted(false);
                             startedRef.current = false;
+                            clearInterval(runningTimeInterval);
+                            setRunningTimeInterval(null);
+                            setRunningTime(0);
+                            runningTimeRef.current=0;
+                            setCurrentStateMessage(0);
                             dispatch({
                                 type: types.AUTO_BUY_STATE,
                                 payload: false
@@ -288,7 +293,21 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                                 {(state.walletBalance/1000000000).toFixed(2)} ◎
                                 </div>
                             </div>
-
+                            <div className="specification-wrapper" >
+                                <div>
+                                    Running Time
+                                </div>
+                                <div style={{textAlign:"center", color:`${theme.primary}`}} >
+                                    00:
+                                    {
+                                        Math.floor(runningTime/60) > 9 ? Math.floor(runningTime/60) : "0"+Math.floor(runningTime/60)
+                                    }
+                                    :
+                                    {
+                                        runningTime%60 > 9 ? runningTime%60 : "0"+runningTime%60
+                                    }
+                                </div>
+                            </div>
                         </div>
                         <div style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center", fontSize:"1.5em"}}>
                             <label style={{marginRight:"1vw"}} >

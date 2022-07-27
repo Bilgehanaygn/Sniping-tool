@@ -7,6 +7,7 @@ import MiddleMainAutoBuy from './MiddleMainAutoBuy/MiddleMainAutoBuy';
 import { fetchAllCollections } from "../../actions/collections";
 import types from "../../actions/types";
 import theme from '../../theme/theme';
+import MiddleMainMintingTool from './MiddleMainMintingTool/MiddleMainMintingTool';
 
 
 const MainPage = () => {
@@ -42,7 +43,8 @@ const MainPage = () => {
                 <LeftMain />
                 {
                     state.currentPage === 1 ? <MiddleMainInitial header={"Sniper Tool"} ItemSelectedScreen={MiddleMainSniperTool} /> : 
-                    state.currentPage === 2 ? <MiddleMainInitial header={"Auto Buy"} ItemSelectedScreen={MiddleMainAutoBuy} /> : null
+                    state.currentPage === 2 ? <MiddleMainInitial header={"Auto Buy"} ItemSelectedScreen={MiddleMainAutoBuy} /> : 
+                    state.currentPage === 3 ? <MiddleMainMintingTool /> : null
                 }
             </div>
         </> :

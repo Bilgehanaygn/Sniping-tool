@@ -64,7 +64,7 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
                         }
                     </div>
                     <div style={{textAlign:"left"}} >
-                        {state.selectedCollectionInfo?.description?.substring(0,150)}..
+                        {state.selectedCollectionInfo?.description?.substring(0,110)}..
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
                         <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
                     </svg>
                 <div style={{marginRight:"1vw"}} >
-                    <div style={{...styles.infoItem, marginBottom:"1vh"}} >
+                    <div style={{...styles.infoItem, marginBottom:"1vh", whiteSpace:"nowrap"}} >
                         Floor: {typeof c === 'undefined' ? (state.selectedCollectionInfo?.floorPrice/1000000000).toFixed(2) : "None"} ◎
                     </div>
                     <div style={styles.infoItem}>
@@ -83,7 +83,7 @@ const CollectionDetailsHeader = ({handleRefreshClick}) => {
                     
                 </div>
                 <div >
-                    <div style={{...styles.infoItem, marginBottom:"1vh"}}>
+                    <div style={{...styles.infoItem, marginBottom:"1vh", whiteSpace:"nowrap"}}>
                         Volume: {typeof state.selectedCollectionInfo?.volumeAll !== 'undefined' ? (state.selectedCollectionInfo?.volumeAll/1000000000000).toFixed(2) : "None"}K ◎
                     </div>
                     <div style={{display:"flex", flexDirection:"row", background:"#282c34", borderRadius:"0.5vh", padding:"3px"}} >

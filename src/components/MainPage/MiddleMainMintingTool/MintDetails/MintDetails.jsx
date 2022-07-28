@@ -1,4 +1,4 @@
-import { Transaction, sendAndConfirmRawTransaction, Keypair } from "@solana/web3.js";
+import { Transaction, Keypair } from "@solana/web3.js";
 import { getAssociatedTokenAddress } from "@solana/spl-token";
 import axios from "axios";
 import theme from "../../../../theme/theme";
@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { ContextValue } from "../../../../context/Context";
 import types from "../../../../actions/types";
+import { utils } from "@project-serum/anchor";
 
 const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => {
     //if type magic eden
@@ -14,7 +15,8 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
     const startedRef = useRef(started);
     const [state,dispatch] = ContextValue();
     const [countDown, setCountDown] = useState("initial");
-
+    const [errorCount, setErrorCount] = useState(0);
+    const errorCountRef = useRef(errorCount);
     const {publicKey, signTransaction} = useWallet();
     const {connection} = useConnection();
 
@@ -57,10 +59,23 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
             }
     );
 
+    const showOneMessage = async (message) => {
+        var messageDom = document.getElementById("message-box");
+        var el = document.createElement('div');
+
+        el.innerHTML = message;
+        el.className="show";
+        messageDom.appendChild(el);
+        setTimeout(() => {
+            messageDom.removeChild(el);
+          }, 1500);
+    }
+
     const attemptToMint = async () => {
         let dateNow = new Date().getTime();
         if(collectionDetails.publicStartTime-dateNow >= 0 || collectionDetails.publicEndTime-dateNow <= 0){
-            alert('Public mint is ended.');
+            alert('Public mint is not started or ended.');
+            handleStopClick();
             return;
         }
         console.log("in 1");
@@ -96,15 +111,39 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
             
             console.log(res.data);
 
-            let txn = Transaction.from(res.data.tx);
+            let txn = Transaction.from(utils.bytes.bs58.decode(res.data.tx));
             let txnSigned = await signTransaction(txn);
+            txnSigned.partialSign(mintKey);
 
-            sendAndConfirmRawTransaction(connection, txnSigned.serialize(), 
-            {skipPreflight: true, preflightCommitment: 'processed', maxRetries: 3, commitment: 'processed'});
+            console.log(txnSigned);
 
+            connection.sendRawTransaction(txnSigned.serialize(), {skipPreflight: !0});
+            
+            showOneMessage("Mint transaction sent. No further details will be provided.");
+            setErrorCount(0);
+            errorCountRef.current=0;
+            await new Promise(resolve=>{setTimeout(()=>{resolve();},600)});
             //No further details will be provided!
         }
         catch(err){
+            showOneMessage("Unknown error.");
+            if(errorCountRef.current>=3){
+                //process stopped after too many errors
+                setStarted(false);
+                startedRef.current=false;
+                setErrorCount(0);
+                errorCountRef.current=0;
+                dispatch({
+                    type: types.AUTO_BUY_STATE,
+                    payload:false
+                })
+                showOneMessage("Process Stopped after too many errors. Make sure mint is not over.");
+            }
+            else{
+                setErrorCount(errorCount+1);
+                errorCountRef.current=errorCountRef.current+1;
+            }
+            await new Promise(resolve=>{setTimeout(()=>{resolve();},600)});
             console.log(err);
         }
     }
@@ -233,12 +272,18 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                 <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                             </svg>
-                            Max value for Magic Eden is 0.6, recommended is 0.7.
-                            No limit on other launchpads.
+                            Only matters if auto-approve is turned on. Default and recommended value is 0.7s.
+                        </div>
+                        <div style={{fontSize:"0.8em", fontWeight:200, textAlign:"right", margin:"1vh",}} >
+                            <svg style={{width:"1em", height:"1em", marginRight:"0.3vw"}} xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>
+                            Auto-approve is recommended to increase the mint chance.
                         </div>
                         <div style={styles.detailsItem} >
                             <span>Click Interval(seconds):</span>
-                            <input type="text" placeholder="E.g. 0.8" className="specification-input" style={{width:"40%"}} />
+                            <span>0.7s</span>
                         </div>
                         <div style={{...styles.detailsItem, marginTop:"2vh"}} >
                             <button className="start-stop-button" style={styles.startButtonSpecific} 
@@ -249,6 +294,7 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                     </div>
                 </div>
             </div>
+            <div style={{position:"fixed", left:"2vw", top:"4vh"}} id="message-box"></div>
         </div>
     )
 }

@@ -4,6 +4,7 @@ import types from "../../../actions/types";
 import theme from "../../../theme/theme";
 import TrendingCollections from './TrendingCollections';
 import './middlemaininitial.css';
+import lockImage from '../../../assets/lock.png';
 
 
 
@@ -31,7 +32,7 @@ const Item = (props) => {
             height: "7vh",
             marginRight: "2vw",
             borderRadius: "2vh"
-        }
+        },
     };
 
     return (
@@ -56,6 +57,7 @@ const MiddleMainInitial = (props) => {
     }
 
     const handleSelect = (element) => {
+        return;
         setSelectedCollection(element);
         dispatch({
             type: types.CURRENT_COLLECTION_LOADING_DONE,
@@ -72,12 +74,27 @@ const MiddleMainInitial = (props) => {
         mainDiv: {
             minHeight:"92vh", maxHeight:"92vh",
             backgroundColor:"theme.background", color:"white",textAlign:"center",
-            overflow:"hidden", width:"calc(100vw - (200px + 1.5vw))"
+            overflow:"hidden", width:"calc(100vw - (200px + 1.5vw))",
+            //additional for locking
+            position:"relative"
         },
+        //additional to locking
+        lockedArea:{
+            position:"absolute", width:"100%", height:"100%", backgroundColor:"#000",
+            left:0,top:0, opacity:0.5, 
+        },
+        lockImageDiv:{
+            position:"absolute", width:"100%", height:"100%", 
+            left:0,top:0,
+            backgroundImage:`url(${lockImage})`, backgroundPosition:"center", backgroundSize:"contain",
+            backgroundRepeat: "no-repeat", zIndex:5
+        }
     }
 
     return (
         <div style={styles.mainDiv}>
+            <div style={styles.lockedArea} ></div>
+            <div style={styles.lockImageDiv} ></div>
             {
                 state.anyCollectionSelected ? <props.ItemSelectedScreen selectedCollection={selectedCollection} /> : 
                 <div >

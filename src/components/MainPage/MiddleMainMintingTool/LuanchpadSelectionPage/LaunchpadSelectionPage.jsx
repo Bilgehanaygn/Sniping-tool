@@ -60,8 +60,6 @@ const LaunchpadSelectionPage = () => {
                 const metadata = await anchor.web3.PublicKey.findProgramAddress([anchor.utils.bytes.utf8.encode('metadata'),
                 TokenMetadataProgram.publicKey.toBuffer(), candyMachineIdPublicKey.toBuffer()], TokenMetadataProgram.publicKey);
 
-                console.log(launchStagesObject);
-
                 collectionDetailsInner = {
                     type: 1,
                     name: res.name,
@@ -75,7 +73,7 @@ const LaunchpadSelectionPage = () => {
                     publicEndTime: launchStagesObject.stages[launchStagesObject.stages.length-1].endTime.toNumber()*1e3,
                     discord: res.discordLink,
                     website: res.websiteLink,
-                    twitter: res.twitterLink,                    
+                    twitter: res.twitterLink,
                 };
 
                 requestDetailsInner = {

@@ -75,7 +75,7 @@ const ListItem = ({itemDetails, index, checkInBasket, snipeItem, getItemState}) 
               messageDom.removeChild(el);
             }, 1500);
             //first interaction with the item so
-            console.log("Bilgehan error: in handleSnipeButtonClick");
+            console.log("DEVBilge error: in handleSnipeButtonClick");
             return;
         }
     }
@@ -138,18 +138,12 @@ const Listings = () => {
             //Magic eden returns txn
             const txn = Transaction.from(res.data.txSigned.data);
 
-            console.log("Transaction before signing: ", txn);
-
             const txnSigned = await signTransaction(txn);
-
-            console.log("Transaction after signing: ", txn);
-
 
             //send to chain
             const response = await sendAndConfirmRawTransaction(connection, txnSigned.serialize(), 
             {skipPreflight: true, preflightCommitment: 'processed', maxRetries: 3, commitment: 'processed'});
             
-            console.log(response);
             return 1;
         }
         catch(error){

@@ -24,14 +24,24 @@ const CartItem = ({itemDetails, handleDeleteClick}) => {
     return (
         <div style={{border:`2px solid ${theme.primary}`, borderRadius:"2vh", margin:"1vh 0vh", maxWidth:"13vw"
             }}>
-            <div style={{background:"",textAlign:"center", padding:"0.8vh",borderBottom:`2px solid ${theme.primary}`}}>
+            <div style={{background:"", display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"center", padding:"0.8vh",borderBottom:`2px solid ${theme.primary}`}}>
+                <span>
                 State: {itemDetails?.itemState === 0 ? "Sniping... ⏳" : 
                 (itemDetails?.itemState === 1 ? "Sniped ✔️" : 
                 (itemDetails?.itemState === -1 ? "Failed ❌": (itemDetails?.itemState === 2 ? "In Basket 🛒" : "error"))
                 )}
+                </span>
+                <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+                    <div id="trash-icon" onClick={()=>{handleDeleteClick(itemDetails)}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
+            
             <div style={styles.itemWrapper}>
-                <div style={{display:"flex", flexDirection:"row"}}>
+                <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between",width:"100%"}}>
                     <img src={itemDetails?.extra?.img} alt="img" style={styles.itemImage} />
                     <div style={{fontSize:"17px", display:"flex", flexDirection:"column", 
                     justifyContent:"space-between", padding:"0.2vh 0vh"}}>
@@ -40,13 +50,7 @@ const CartItem = ({itemDetails, handleDeleteClick}) => {
                         <div>{itemDetails?.price} ◎</div>
                     </div>
                 </div>
-                <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
-                    <div id="trash-icon" onClick={()=>{handleDeleteClick(itemDetails)}}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
-                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                        </svg>
-                    </div>
-                </div>
+                
                 
             </div>
         </div>

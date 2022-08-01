@@ -8,7 +8,7 @@ import { fetchAllCollections } from "../../actions/collections";
 import types from "../../actions/types";
 import theme from '../../theme/theme';
 import MiddleMainMintingTool from './MiddleMainMintingTool/MiddleMainMintingTool';
-
+import MiddleMainHomePage from './MiddleMainHomePage/MiddleMainHomePage';
 
 const MainPage = () => {
     const [state, dispatch] = ContextValue();
@@ -42,6 +42,7 @@ const MainPage = () => {
             <div style={styles.mainDiv}>
                 <LeftMain />
                 {
+                    state.currentPage === 0 ? <MiddleMainHomePage /> :
                     state.currentPage === 1 ? <MiddleMainInitial header={"Sniper Tool"} ItemSelectedScreen={MiddleMainSniperTool} /> : 
                     state.currentPage === 2 ? <MiddleMainInitial header={"Auto Buy"} ItemSelectedScreen={MiddleMainAutoBuy} /> : 
                     state.currentPage === 3 ? <MiddleMainMintingTool /> : null

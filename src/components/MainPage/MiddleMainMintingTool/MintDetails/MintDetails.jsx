@@ -227,7 +227,7 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                             }
                         </div>
                         <div style={{textAlign:"left", overflow:"hidden", maxHeight:"10vh"}} >
-                            {collectionDetails?.description?.substring(0,150)}..
+                            {collectionDetails?.description?.substring(0,100)}..
                         </div>
                     </div>
                 </div>
@@ -238,8 +238,9 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                 </div>
             </div>
 
-            <div style={{width:"100%", display:"flex", justifyContent:"center", marginTop:"10vh"}} >
-                <div style={{width:"60vw", maxWidth:600, fontWeight:600}} >
+            <div style={{width:"100%", marginTop:"5vh"}} >
+                <div style={{width:"60vw", maxWidth:600, fontWeight:600, marginLeft: "auto", marginRight: "auto",}} >
+                    <div style={{textAlign:"center", fontSize:"1.5em", marginBottom:"2vh", color:`${theme.primary}`}} > Details </div>
                     <div>
                         <div style={styles.detailsItem} >
                             <span>Supply:</span>

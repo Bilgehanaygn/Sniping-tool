@@ -54,7 +54,7 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                     let minutes = Math.floor((remainingTimeToStart % (1000 * 60 * 60)) / (1000 * 60));
                     let seconds = Math.floor((remainingTimeToStart % (1000 * 60)) / 1000);
                     console.log("interval is working");
-                    setCountDown(hours+":"+minutes+":"+seconds);
+                    setCountDown((hours<10?"0"+hours:hours)+":"+(minutes<10?"0"+minutes:minutes)+":"+(seconds<10?"0"+seconds:seconds));
                 },1000)
             }
     );

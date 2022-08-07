@@ -3,12 +3,23 @@ import './middlemainfeedback.css';
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { useState } from "react";
 import successImage from '../../../assets/successImage.png';
+import errorImage from '../../../assets/errorImage.png'
 
 const MiddleMainFeedback = () => {
     const [isError, setIsError] = useState(false);
+    const [switchImage, setSwitchImage] = useState(false);
 
     const handleSendClick = async () => {
+        
         let elements = document.getElementsByClassName('feedback-input');
+        for(let item of elements){
+            if(item.value === ""){
+                setSwitchImage(true);
+                setIsError(true);
+                return;
+            }
+        }
+        setSwitchImage(false);
         for(let item of elements){
             item.value="";
         }
@@ -22,7 +33,8 @@ const MiddleMainFeedback = () => {
     return(
         
         <div style={{color:"white", height:"92vh", maxHeight:"92vh", width:"calc(100vw - (200px + 1.5vw))", paddingTop:"5vh", overflowY:"auto"}} >
-            {isError ? <ErrorPage errorPageCallBack={handleCloseCallback} errorPageText="Success!" errorImage={successImage} /> : null}
+            {isError ? <ErrorPage errorPageCallBack={handleCloseCallback} errorPageText={switchImage ? "Error! Invalid input." : "Success!"} 
+            errorImage={switchImage ? errorImage : successImage} /> : null}
 
             <div style={{width:"50vw", backgroundColor:"#282c34", margin:"auto", padding:"5vh", borderRadius:"2vh",
                 display:"flex", flexDirection:"column", justifyContent:"space-around"}} >

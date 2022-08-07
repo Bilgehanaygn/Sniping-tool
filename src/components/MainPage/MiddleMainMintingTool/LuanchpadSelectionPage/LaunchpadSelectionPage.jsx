@@ -13,6 +13,9 @@ import { TokenMetadataProgram } from '@metaplex-foundation/js';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { SystemProgram, SYSVAR_RENT_PUBKEY, SYSVAR_SLOT_HASHES_PUBKEY, PublicKey } from '@solana/web3.js';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import types from '../../../../actions/types';
+import { ContextValue } from '../../../../context/Context';
+
 
 const LaunchpadSelectionPage = () => {
     const [launchpadSelected, setLaunchpadSelected] = useState(false);
@@ -21,7 +24,6 @@ const LaunchpadSelectionPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const {publicKey} = useWallet();
     const {connection} = useConnection();
-
 
     const handleSearchClick = async (type) => {
         setIsLoading(true);
@@ -158,7 +160,7 @@ const LaunchpadSelectionPage = () => {
                     </div>
                     <div>
 
-                        <input id="me-input" type="text" placeholder="E.g. https://magiceden.io/launchpad/sol_shot" className='link-input' />
+                        <input id="me-input" type="text" placeholder="E.g. https://magiceden.io/launchpad/rakkudos" className='link-input' />
                     </div>
                     <div style={{textAlign:"center"}} >
                         <button className="select-launchpad-button" onClick={()=>{handleSearchClick(1)}} >
@@ -191,11 +193,13 @@ const LaunchpadSelectionPage = () => {
             </div>
             <div style={{height:"100%", display:"flex", flexDirection:"column"}} >
                 <div className="launchpad-wrapper" style={{marginBottom:"10vh", position:"relative" }} >
+                    
                     <div style={styles.lockImageDiv} >
                     </div>
                     <div style={styles.lockedArea} >
-
                     </div>
+                    
+
                     <div className="launchpad-header" >
                         <img src={monkelabsLogo} alt="Magic Eden" className="launchpad-logo" />
                         <span style={{fontWeight:600, textAlign:"center", marginLeft:"5vw"}} >
@@ -212,7 +216,13 @@ const LaunchpadSelectionPage = () => {
                         </button>
                     </div>
                 </div>
-                <div className="launchpad-wrapper" >
+                <div className="launchpad-wrapper" style={{position:"relative"}} >
+                    <div style={styles.lockImageDiv} >
+                    </div>
+                    <div style={styles.lockedArea} >
+                    </div>
+
+
                     <div className="launchpad-header" >
                         <img src={metaplexLogo} alt="Magic Eden" className="launchpad-logo" />
                         <span style={{fontWeight:600, textAlign:"center", marginLeft:"5vw"}} >

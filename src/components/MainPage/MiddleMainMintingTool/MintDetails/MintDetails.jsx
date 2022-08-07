@@ -8,6 +8,10 @@ import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { ContextValue } from "../../../../context/Context";
 import types from "../../../../actions/types";
 import { utils } from "@project-serum/anchor";
+import ErrorPage from "../../../ErrorPage/ErrorPage";
+import errorImage from '../../../../assets/errorImage.png';
+
+
 
 const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => {
     //if type magic eden
@@ -19,6 +23,10 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
     const errorCountRef = useRef(errorCount);
     const {publicKey, signTransaction} = useWallet();
     const {connection} = useConnection();
+
+    const [walletBalance, setWalletBalance] = useState("Waiting");
+
+    const [isError, setIsError] = useState(false);
 
     const startDate = new Date(collectionDetails.publicStartTime);
     const endDate = new Date(collectionDetails.publicEndTime);
@@ -37,6 +45,9 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
 
     useEffect(
         ()=>{
+                connection.getBalance(publicKey).then(res=>{
+                    setWalletBalance(res);
+                })
                 if(startDate.getTime()-new Date().getTime() <= 0){
                     console.log("case");
                     setCountDown("Live!");
@@ -56,7 +67,9 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                     console.log("interval is working");
                     setCountDown((hours<10?"0"+hours:hours)+":"+(minutes<10?"0"+minutes:minutes)+":"+(seconds<10?"0"+seconds:seconds));
                 },1000)
-            }
+                
+                
+            },[walletBalance]
     );
 
     const showOneMessage = async (message) => {
@@ -148,25 +161,32 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
         }
     }
 
-    const handleStartClick = async () => {
-        try{
-            setStarted(true);
-            startedRef.current = true;
 
-            dispatch({
-                type: types.AUTO_BUY_STATE,
-                payload: true
-            })
-            
-            while(startedRef.current){
-                await attemptToMint();
-            }
-        }
-        catch(error){
-            //request error do sth else
-            //other types of error stop
-        }
+    const handleStartClick = async () => {
+        setIsError(true);
+        return;
     }
+
+    //ORIGINAL
+    // const handleStartClick = async () => {
+    //     try{
+    //         setStarted(true);
+    //         startedRef.current = true;
+
+    //         dispatch({
+    //             type: types.AUTO_BUY_STATE,
+    //             payload: true
+    //         })
+            
+    //         while(startedRef.current){
+    //             await attemptToMint();
+    //         }
+    //     }
+    //     catch(error){
+    //         //request error do sth else
+    //         //other types of error stop
+    //     }
+    // }
 
 
     const handleStopClick = () => {
@@ -214,6 +234,7 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
     
     return (
         <div style={{}} >
+            {isError ? <ErrorPage errorPageCallBack={()=>{setIsError(false)}} errorPageText="Ooops! You are not a beta tester." errorImage={errorImage} /> : null}
             <div style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between", 
                 borderBottom:`2px solid ${theme.primary}`, paddingBottom:"2vh"}} >
                 <div style={{display:"flex", flexDirection:"row", alignItems:"center"}} >
@@ -238,9 +259,8 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                 </div>
             </div>
 
-            <div style={{width:"100%", marginTop:"5vh"}} >
+            <div style={{width:"100%", marginTop:"5vh",}} >
                 <div style={{width:"60vw", maxWidth:600, fontWeight:600, marginLeft: "auto", marginRight: "auto",}} >
-                    <div style={{textAlign:"center", fontSize:"1.5em", marginBottom:"2vh", color:`${theme.primary}`}} > Details </div>
                     <div>
                         <div style={styles.detailsItem} >
                             <span>Supply:</span>
@@ -266,6 +286,15 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
                         <div style={styles.detailsItem} >
                             <span>Countdown to Start:</span>
                             <span> {countDown} </span>
+                        </div>
+                        <hr/>
+                        <div style={styles.detailsItem} >
+                            <span>Your Wallet Balance:</span>
+                            <span> {(walletBalance/1000000000).toFixed(2)} ◎ </span>
+                        </div>
+                        <div style={styles.detailsItem} >
+                            <span>Current ME floor:</span>
+                            <span> @NaN </span>
                         </div>
                         <hr/>
                         <div style={{fontSize:"0.8em", fontWeight:200, textAlign:"right", margin:"1vh",}} >

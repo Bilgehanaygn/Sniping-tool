@@ -1,0 +1,12 @@
+.simple-button{
+    background-color: #e0a502;
+    font-size: 20px; 
+    color: #fff;
+    padding: 1vh;
+    width: 10vw;
+}
+
+.simple-button:hover{
+    cursor: pointer;
+    background-color: #FFD700;
+}

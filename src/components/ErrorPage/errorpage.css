@@ -1,0 +1,13 @@
+#errorpage-close-button{
+    font-size:25px;
+    padding: 2vh; 
+    color:#fff;
+    border-radius: 0.5vh;
+    font-weight: bold;
+    background-color: #e0a502;
+}
+
+#errorpage-close-button:hover{
+    cursor:pointer;
+    background-color: #FFD700;
+}

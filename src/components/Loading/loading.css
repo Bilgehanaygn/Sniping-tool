@@ -9,4 +9,6 @@
     z-index: 3;
     position: relative;
     animation: enlight 2.5s infinite linear;
+    background-color: #282c34;
+    border-radius: 5vh;
 }

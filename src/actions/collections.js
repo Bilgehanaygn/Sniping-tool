@@ -1,42 +1,52 @@
 import axios from 'axios';
 
+const url = 'https://solshot-server.herokuapp.com';
 
 export const fetchAllCollections = () => {
-
-    let requests = [];
-    for(let i=0;i<15;i++){
-        requests.push(axios.get(`https://api-mainnet.magiceden.dev/v2/collections?offset=${i*500}&limit=500`));
-    }
-
-    return axios.all(requests);
-
+    return axios.get(url + '/fetchAllCollections');
 }
 
+export const fetchCollectionDetails = () => {}
+export const fetchCollectionListings = () => {}
+export const fetchItemDetails = () => {}
 
-export const fetchCollectionDetails = (symbol) => {
+
+// export const fetchAllCollections = () => {
+
+//     let requests = [];
+//     for(let i=0;i<15;i++){
+//         requests.push(axios.get(`https://api-mainnet.magiceden.dev/v2/collections?offset=${i*500}&limit=500`));
+//     }
+
+//     return axios.all(requests);
+
+// }
+
+
+// export const fetchCollectionDetails = (symbol) => {
     
-    return axios.get(`https://api-mainnet.magiceden.dev/v2/collections/${symbol}/stats`);
+//     return axios.get(`https://api-mainnet.magiceden.dev/v2/collections/${symbol}/stats`);
 
-}
-
-
-export const fetchCollectionListings = (symbol, offset, limit=20) => {
-
-    return axios.get(`https://api-mainnet.magiceden.dev/v2/collections/${symbol}/listings?offset=${offset*20}&limit=${limit}&sort=price`);
-
-}
+// }
 
 
-export const fetchItemDetails = (tokenAddressList) => {
+// export const fetchCollectionListings = (symbol, offset, limit=20) => {
 
-    let requests = [];
-    for (let i of tokenAddressList){
-        requests.push(axios.get(`https://api.all.art/v1/solana/${i}`));
-    }
+//     return axios.get(`https://api-mainnet.magiceden.dev/v2/collections/${symbol}/listings?offset=${offset*20}&limit=${limit}&sort=price`);
 
-    return axios.all(requests);
+// }
 
-}
+
+// export const fetchItemDetails = (tokenAddressList) => {
+
+//     let requests = [];
+//     for (let i of tokenAddressList){
+//         requests.push(axios.get(`https://api.all.art/v1/solana/${i}`));
+//     }
+
+//     return axios.all(requests);
+
+// }
 
 
 export const popularCollections = [

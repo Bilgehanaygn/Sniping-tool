@@ -1,0 +1,12 @@
+#portfolio-cartitem{
+    border-radius: 1vh; 
+    background-color: #282c34;
+    margin:1vh;
+}
+
+
+#portfolio-cartitem:hover{
+    cursor:pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    margin:0;
+}

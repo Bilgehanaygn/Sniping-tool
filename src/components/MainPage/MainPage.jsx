@@ -9,20 +9,37 @@ import types from "../../actions/types";
 import theme from '../../theme/theme';
 import MiddleMainMintingTool from './MiddleMainMintingTool/MiddleMainMintingTool';
 import MiddleMainHomePage from './MiddleMainHomePage/MiddleMainHomePage';
+import MiddleMainPortfolio from './MiddleMainPortfolio/MiddleMainPortfolio';
+import MiddleMainFeedback from './MiddleMainFeedback/MiddleMainFeedback';
+import MiddleMainSettings from './MiddleMainSettings/MiddleMainSettings';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+
 
 const MainPage = () => {
     const [state, dispatch] = ContextValue();
+    const {connection} = useConnection();
+    const {publicKey} = useWallet();
+
+
     console.log("burdan");
     
-    const getAllCollections = () => {
-        fetchAllCollections().then(responses => {
-            dispatch({
-                type: types.FETCH_ALL_COLLECTIONS,
-                payload: responses
-            });
-        }).catch(errors => {
-        console.log(errors);
+    const getAllCollections = async () => {
+
+        const walletBalance = await connection.getBalance(publicKey);
+
+        dispatch({
+            type: types.SET_WALLET_BALANCE,
+            payload: walletBalance
+        })
+
+
+        const response = await fetchAllCollections();
+
+        dispatch({
+            type: types.FETCH_ALL_COLLECTIONS,
+            payload: response.data
         });
+
     }
 
     const styles = {
@@ -45,7 +62,11 @@ const MainPage = () => {
                     state.currentPage === 0 ? <MiddleMainHomePage /> :
                     state.currentPage === 1 ? <MiddleMainInitial header={"Sniper Tool"} ItemSelectedScreen={MiddleMainSniperTool} /> : 
                     state.currentPage === 2 ? <MiddleMainInitial header={"Auto Buy"} ItemSelectedScreen={MiddleMainAutoBuy} /> : 
-                    state.currentPage === 3 ? <MiddleMainMintingTool /> : null
+                    state.currentPage === 3 ? <MiddleMainMintingTool /> : 
+                    state.currentPage === 4 ? <MiddleMainPortfolio /> : 
+                    state.currentPage === 5 ? <MiddleMainFeedback /> : 
+                    state.currentPage === 6 ? <MiddleMainSettings /> : null 
+
                 }
             </div>
         </> :

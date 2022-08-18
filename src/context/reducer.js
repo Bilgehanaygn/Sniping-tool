@@ -19,16 +19,16 @@ const reducer = (state, action) => {
     switch(action.type){
         
         case types.FETCH_ALL_COLLECTIONS:
-            // let allItems = [];
-            // for(let res of action.payload){
-            //     if(res.status === 200){
-            //         allItems = allItems.concat(res.data);
-            //     }
-            // }
+            let allItems = [];
+            for(let res of action.payload){
+                if(res.status === 200){
+                    allItems = allItems.concat(res.data);
+                }
+            }
             return {
                 ...state,
                 loadingDone: true,
-                allCollections: action.payload
+                allCollections: allItems
             };
         case types.FETCH_SELECTED_COLLECTION_INFO:
             return {

@@ -188,8 +188,8 @@ const MiddleMainPortfolio = () => {
             </div>
             
             <div style={{ display: "grid", rowGap:"5vh", columnGap: "1vw", gridTemplateColumns:"auto auto auto auto", margin:"5vh"}} >
-                {walletTokens.map(element=>
-                    <AnalyzeItem walletTokenDetails={element} callBack={handleClickCallBack} />                    
+                {walletTokens.map((element, index)=>
+                    <AnalyzeItem walletTokenDetails={element} callBack={handleClickCallBack} key={index} />                    
                 )}
             </div>
             

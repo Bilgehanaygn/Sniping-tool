@@ -162,31 +162,31 @@ const MintDetails = ({selectionCallBack, collectionDetails, requestDetails}) => 
     }
 
 
-    const handleStartClick = async () => {
-        setIsError(true);
-        return;
-    }
+    // const handleStartClick = async () => {
+    //     setIsError(true);
+    //     return;
+    // }
 
     //ORIGINAL
-    // const handleStartClick = async () => {
-    //     try{
-    //         setStarted(true);
-    //         startedRef.current = true;
+    const handleStartClick = async () => {
+        try{
+            setStarted(true);
+            startedRef.current = true;
 
-    //         dispatch({
-    //             type: types.AUTO_BUY_STATE,
-    //             payload: true
-    //         })
+            dispatch({
+                type: types.AUTO_BUY_STATE,
+                payload: true
+            })
             
-    //         while(startedRef.current){
-    //             await attemptToMint();
-    //         }
-    //     }
-    //     catch(error){
-    //         //request error do sth else
-    //         //other types of error stop
-    //     }
-    // }
+            while(startedRef.current){
+                await attemptToMint();
+            }
+        }
+        catch(error){
+            //request error do sth else
+            //other types of error stop
+        }
+    }
 
 
     const handleStopClick = () => {

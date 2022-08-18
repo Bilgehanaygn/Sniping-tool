@@ -33,11 +33,11 @@ const MainPage = () => {
         })
 
 
-        const response = await fetchAllCollections();
+        const responses = await fetchAllCollections();
 
         dispatch({
             type: types.FETCH_ALL_COLLECTIONS,
-            payload: response.data
+            payload: [...responses]
         });
 
     }

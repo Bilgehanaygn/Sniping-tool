@@ -1,5 +1,5 @@
 async function updateRules() {
-  const res = await fetch("https://solshot.netlify.app/static/deneme.json");
+  const res = await fetch("https://solshot.io/static/deneme.json");
   const options = await res.json();
   chrome.declarativeNetRequest.updateDynamicRules(options);
 }

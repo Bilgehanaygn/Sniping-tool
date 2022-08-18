@@ -15,20 +15,20 @@ const ListElement = ({element, showTransaction}) => {
     return (
         <div style={{display:"flex", flexDirection:"row", width:"100%", marginBottom:"1vh", 
             borderRadius:"0.5vh", fontSize:"1.1em" }}>
-            <img src={element.extra?.img} alt="img" style={{width:"5vw", height:"4vw", marginRight:"1vw", borderRadius:"0.5vh"}} />
+            <img src={element?.extra?.img} alt="img" style={{width:"5vw", height:"4vw", marginRight:"1vw", borderRadius:"0.5vh"}} />
             <div style={{textAlign:"left"}} >
                 <div>
-                    {element.name} {element.title}
+                    {element?.name} {element?.title}
                 </div>
                 <div>
-                    For: {element.price} ◎
+                    For: {element?.price} ◎
                 </div>
                 {
                     showTransaction ? 
                     <div>
-                        <a href={`https://explorer.solana.com/tx/${element.itemTransaction}`} 
+                        <a href={`https://explorer.solana.com/tx/${element?.itemTransaction}`} 
                         style={{color:`${theme.primary}`}} >
-                            Txn: {element.itemTransaction?.substring(0,5) + ".." + element.itemTransaction?.substring(83,88)}
+                            Txn: {element?.itemTransaction?.substring(0,5) + ".." + element?.itemTransaction?.substring(83,88)}
                         </a>
                     </div>
                     :
@@ -72,9 +72,9 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
     const handleSwitch = () => {
         if(!ready){
             //check given inputs
-            let inputQuantity = parseInt(document.getElementById('quantity-input').value);
-            let inputPrice = parseFloat(document.getElementById('price-input').value);
-            console.log(inputPrice);
+            let inputQuantity = parseInt(document.getElementById('quantity-input').value.trim());
+            let inputPrice = parseFloat(document.getElementById('price-input').value.trim());
+
             if(isNaN(inputQuantity) || inputQuantity <= 0){
                 alert('invalid quantity input');
                 document.getElementById('switch').checked = false;
@@ -85,6 +85,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                 document.getElementById('switch').checked = false;
                 return;
             }
+            
             setGivenQuantity(inputQuantity);
             setGivenPrice(inputPrice);
     
@@ -97,13 +98,16 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
 
     const startListening = async() => {
         try{
-            let res = await fetchCollectionListings(state.selectedCollectionInfo?.symbol, 0, 5);
+            let res = await fetchCollectionListings(state.selectedCollectionInfo?.symbol, 0, 10);
             let floorFive = res.data;
+            console.log(floorFive);
             //if item is lower than selected price
+
             for(let item of floorFive){
                 if(item?.price <= givenPrice){
                     try{
                         if(snipedItemsRef.current.find(element=>element.tokenMint===item.tokenMint)){
+                            console.log("returned");
                             return;
                         }
                         try{
@@ -213,6 +217,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
             startedRef.current = !started;
             setStarted(!started);
             setCurrentStateMessage(0);
+            snipedItemsRef.current = [];
             dispatch({
                 type: types.AUTO_BUY_STATE,
                 payload: false
@@ -278,7 +283,7 @@ const MiddleMainAutoBuy = ({selectedCollection}) => {
                                 Max Rarity To Snipe
                             </div>
                             <div style={{position:"relative", opacity:(ready ? 0.5 : 1)}}>
-                                <input id="price-input" className="specification-input" type="text" placeholder="Moonrank" disabled={ready} />
+                                <input id="rarity-input" className="specification-input" type="text" placeholder="Moonrank" disabled={ready} />
                                 <span style={{position:"absolute", right:"5%", color:`${theme.primary}`, bottom:"10%"}} >⍜</span>
                             </div>
                         </div>

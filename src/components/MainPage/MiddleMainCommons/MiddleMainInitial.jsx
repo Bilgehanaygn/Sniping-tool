@@ -50,14 +50,12 @@ const MiddleMainInitial = (props) => {
     const [state, dispatch] = ContextValue();
     const [searchItem, setSearchItem] = useState("");
     const [selectedCollection, setSelectedCollection] = useState({});
-    
 
     const handleChange = (e) => {
         setSearchItem(e.target.value);
     }
 
     const handleSelect = (element) => {
-        return;
         setSelectedCollection(element);
         dispatch({
             type: types.CURRENT_COLLECTION_LOADING_DONE,
@@ -93,8 +91,6 @@ const MiddleMainInitial = (props) => {
 
     return (
         <div style={styles.mainDiv}>
-            <div style={styles.lockedArea} ></div>
-            <div style={styles.lockImageDiv} ></div>
             {
                 state.anyCollectionSelected ? <props.ItemSelectedScreen selectedCollection={selectedCollection} /> : 
                 <div >

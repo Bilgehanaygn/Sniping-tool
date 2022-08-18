@@ -30,6 +30,7 @@ const LaunchpadSelectionPage = () => {
 
         //1 stands for ME
         //2 stands for candyMachine
+        //3 stands for LMNFT
         //MonkeLabs and LMNFT are ristricted in beta version.
         
         try{

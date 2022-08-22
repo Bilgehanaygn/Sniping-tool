@@ -3,12 +3,10 @@ import { fetchCollectionDetails, fetchCollectionListings, fetchItemDetails } fro
 import types from "../../../actions/types";
 import { ContextValue } from "../../../context/Context";
 import Listings from './Listings';
-import theme from "../../../theme/theme";
 import Loading from "../../Loading/Loading";
 import './middlemainsnipertool.css';
 import CollectionDetailsHeader from "../MiddleMainCommons/CollectionDetailsHeader";
 import RightMain from "../RightMain/RightMain";
-import lockImage from '../../../assets/lock.png';
 
 
 const FooterButtons = ({offset, setOffset,}) => {
@@ -57,19 +55,6 @@ const MiddleMainSniperTool = ({selectedCollection}) => {
         })
     }
     console.log(offset);
-
-    const styles = {
-        lockedArea:{
-            position:"absolute", width:"100%", height:"100%", backgroundColor:"black",
-            left:0,top:0, opacity:0.5, 
-        },
-        lockImageDiv:{
-            position:"absolute", width:"100%", height:"100%", 
-            left:0,top:0,
-            backgroundImage:`url(${lockImage})`, backgroundPosition:"center", backgroundSize:"contain",
-            backgroundRepeat: "no-repeat", zIndex:5
-        }
-    }
 
     //each time next button is clicked, fetch collection details again
     //check if (20*offset) < listed, if so button is not disabled,
@@ -153,10 +138,6 @@ const MiddleMainSniperTool = ({selectedCollection}) => {
         //if still old then return loading else, retrn new
         !state.currentCollectionLoadingDone ? <Loading callBackFunction={null} callCallBack={false} /> : 
         <div style={{display:"flex", flexDirection:"row", justifyContent:"center" }} >
-            <div style={styles.lockImageDiv} >
-            </div>
-            <div style={styles.lockedArea} >
-            </div>
             <div style={{overflowY:"auto", height:"92vh", maxHeight:"92vh", paddingRight:"1.5vh", width:"64vw", maxWidth:"64vw" }} >
                 <CollectionDetailsHeader handleRefreshClick={handleRefreshClick} />
                 <Listings />

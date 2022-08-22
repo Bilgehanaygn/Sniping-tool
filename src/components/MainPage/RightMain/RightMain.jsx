@@ -127,7 +127,7 @@ const RightMain = () => {
                     }
                 </div>
             </div>
-            <div >
+            {/* <div >
                 <div style={{borderTop:`2px solid ${theme.primary}`, borderBottom:`2px solid ${theme.primary}`,
                     fontSize:"1.5em", padding:"0.5vh", margin:"2vh 0vh"}}>
                     Cart Total: {state.basketTotal} ◎
@@ -142,7 +142,7 @@ const RightMain = () => {
                         </svg>
                     </label>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 

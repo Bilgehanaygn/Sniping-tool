@@ -5,14 +5,15 @@ import snipingIcon from '../../../assets/sniping-icon-black.webp';
 import './listings.css';
 import { sendBuyInstruction } from '../../../actions/instructions';
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { PublicKey, sendAndConfirmRawTransaction, Transaction } from "@solana/web3.js";
+import { sendAndConfirmRawTransaction, Transaction } from "@solana/web3.js";
 
 
-const ListItem = ({itemDetails, index, checkInBasket, snipeItem, getItemState}) => {
+const ListItem = ({itemDetails, checkInBasket, snipeItem, getItemState}) => {
     const [state, dispatch] = ContextValue();
 
     
     const handleItemClick = (stateType) => {
+        return;
         if (state.basket.some(e => e.tokenAddress === itemDetails.tokenAddress)) {
             return;
         }
@@ -187,7 +188,7 @@ const Listings = () => {
                 }
                 }).slice(0,20).map((element,index)=>
             <ListItem key={index} itemDetails={element} checkInBasket={checkInBasket}
-            index={index} snipeItem={snipeItem} getItemState={getItemState} />)
+            snipeItem={snipeItem} getItemState={getItemState} />)
             }
         </div>
     )
